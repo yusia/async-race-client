@@ -25,6 +25,16 @@ export class DataService {
     });
   }
 
+  async updateCar(name: string, color: string, id: number) {
+    return fetch(`${this.url}/garage/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify({ name, color})
+    });
+  }
+
   mapToWinnersModel(data: Winner[], cars: Car[]): Winner[] {
     data.map((winner) => {
       const carName = cars.filter(c => c.id === winner.id)[0].name;
