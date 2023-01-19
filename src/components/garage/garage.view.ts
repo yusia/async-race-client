@@ -29,14 +29,24 @@ export default class GarageView extends View {
 
   buildCarList(carList: Car[]): HTMLElement {
     const inner = carList.map((car) => `
-    <li class="row">
+    <li class="row" data-id="${car.id}">
       <div><span>${car.name}</span> 
-      <button id="${car.id}">select</button>   </div>
+      <button  data-selbutton="${car.id}">select</button>   </div>
       <div class="car" style="background-color:${car.color}"></div>
     </li>`).join('');
     const ul = document.createElement('ul');
-    
     ul.innerHTML = inner;
+    ul.addEventListener('click', (e) => {
+      const id = (e.target as HTMLElement).dataset.selbutton;
+      if (id) {
+       this.triggerEventSelected(id);
+      }
+    });
     return ul;
+  }
+  private triggerEventSelected(value: string) {
+    window.dispatchEvent(new CustomEvent("carselected", {
+      detail: { id: +value }
+    }));
   }
 }

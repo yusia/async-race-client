@@ -23,7 +23,7 @@ export default class GarageController {
 
   private addSelectedListener(){
     window.addEventListener('carselected', ((e: CustomEvent) => {
-      this.selectCar = 2;
+      this.selectCar = e.detail.id;
     }) as EventListener);
   }
 
@@ -38,7 +38,6 @@ export default class GarageController {
       }
     }) as EventListener);
   }
-  
   async renderView() {
     const cars = await this.dataService.getGarage();
     console.log(cars);
