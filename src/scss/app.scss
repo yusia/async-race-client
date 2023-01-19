@@ -1,0 +1,10 @@
+.car {
+  width: 100px;
+  background-size: contain;
+  padding: 9px;
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-image: url("../assets/images/car1.png");
+  mask-image: url("../assets/images/car1.png");
+  background-color: blue;
+}
