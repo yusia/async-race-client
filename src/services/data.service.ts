@@ -1,4 +1,4 @@
-import {Car,Winner} from '../car.model'
+import { Car, Winner } from '../car.model'
 export class DataService {
   constructor(private url: string) {
   }
@@ -15,9 +15,19 @@ export class DataService {
 
   }
 
+  async createCar(name: string, color: string) {
+    return fetch(`${this.url}/garage`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify({ name, color })
+    });
+  }
+
   mapToWinnersModel(data: Winner[], cars: Car[]): Winner[] {
     data.map((winner) => {
-      const carName= cars.filter(c => c.id === winner.id)[0].name;
+      const carName = cars.filter(c => c.id === winner.id)[0].name;
       return winner.name = carName;
     })
     return data;

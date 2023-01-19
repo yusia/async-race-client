@@ -1,11 +1,9 @@
 
 import {Car,Winner} from '../../car.model';
 
-export default class WinnersView {
-  // render() {
-  //   const body = document.getElementById('viewContainer') as HTMLBodyElement;
-  //   body.innerHTML = "";
-  // }
+import View from '../../models/view';
+
+export default class WinnersView extends View{
 
   renderWinners(winners: Winner[]): void {
     const body = document.getElementById('viewContainer') as HTMLBodyElement;

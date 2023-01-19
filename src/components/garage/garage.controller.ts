@@ -5,6 +5,12 @@ export default class GarageController {
   view: GarageView;
   constructor(private dataService: DataService) {
     this.view = new GarageView();
+    window.addEventListener('carcreated', ((e: CustomEvent) => {
+     this.dataService.createCar(e.detail.name,e.detail.color).then(()=>{
+      this.renderView();
+     });
+    }) as EventListener);
+
   }
 
   async renderView() {
