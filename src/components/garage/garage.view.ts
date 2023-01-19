@@ -9,17 +9,21 @@ export default class GarageView {
 
   render() {
 
-    const body = document.getElementById('bodyId') as HTMLBodyElement;
-    body.appendChild(this.buildCarList());
+  //  const body = document.getElementById('bodyId') as HTMLBodyElement;
+    //  body.appendChild(this.buildCarList());
   }
 
-  renderGarage(): void {
-    const garageView = document.createDocumentFragment();
-    garageView.appendChild(this.buildCarList());
+  renderGarage(cars: { name: string }[]): void {
+    // const garageView = document.createDocumentFragment();
+    // garageView.appendChild(this.buildCarList(cars));
+
+    const body = document.getElementById('viewContainer') as HTMLBodyElement;
+    body.innerHTML = "";
+    body.appendChild(this.buildCarList(cars));
   }
 
-  buildCarList(): HTMLElement {
-    const carList = [{ name: "volvo" }, { name: "geely" }]
+  buildCarList(carList: { name: string }[]): HTMLElement {
+    // const carList = [{ name: "volvo" }, { name: "geely" }]
 
     const inner = carList.map((car) => `
     <li class="row">

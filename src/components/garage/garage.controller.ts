@@ -1,9 +1,15 @@
+import { DataService } from "../../services/data.service";
 import GarageView from "./garage.view";
 
 export default class GarageController {
   view: GarageView;
-  constructor() {
+  constructor(private dataService: DataService) {
     this.view = new GarageView();
-    this.view.render();
+  }
+
+  async renderView() {
+    const cars = await this.dataService.getGarage();
+    console.log(cars);
+    this.view.renderGarage(cars);
   }
 }
