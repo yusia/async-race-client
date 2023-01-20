@@ -43,6 +43,8 @@ export default class GarageView extends View {
       const id = (e.target as HTMLElement).dataset.selbutton;
       if (id) {
         this.triggerEventSelected(id);
+        const car = carList.filter(c => c.id === +id)[0];
+        this.initUpdateComponent(car);
       }
 
       const idRemove = (e.target as HTMLElement).dataset.removebutton;
@@ -52,11 +54,17 @@ export default class GarageView extends View {
     });
     return ul;
   }
-  
+
   private triggerEventSelected(value: string) {
     window.dispatchEvent(new CustomEvent("carselected", {
       detail: { id: +value }
     }));
+  }
+  private initUpdateComponent(car: Car) {
+    const inputName = document.getElementById("updateinput") as HTMLInputElement;
+    inputName.value = car.name;
+    const inputColor = document.getElementById("updatecolor") as HTMLInputElement;
+    inputColor.value = car.color;
   }
 
   private triggerEventRemoved(value: string) {
