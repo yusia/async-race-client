@@ -10,9 +10,17 @@ export default class GarageView extends View {
     const updateBtn = CarBuilder.buildCreateTemplate("update", this.triggerEventUpdate);
     garageViewFragment.appendChild(createBtn);
     garageViewFragment.appendChild(updateBtn);
-    garageViewFragment.appendChild(this.buildCarList(cars));
+    const container = this.buildListContainer(cars.length);
+    container.appendChild(this.buildCarList(cars));
 
+    garageViewFragment.appendChild(container);
     this.appendToBody(garageViewFragment);
+  }
+
+  buildListContainer(count: number): HTMLElement {
+    const container = document.createElement('div');
+    container.innerHTML = `<h1>Garage (${count})</h1>`;
+    return container;
   }
 
   private triggerEventCreate(valueName: string, valueColor: string) {
