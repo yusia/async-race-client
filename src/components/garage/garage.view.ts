@@ -33,6 +33,7 @@ export default class GarageView extends View {
       <div>
         <span>${car.name}</span> 
         <button  data-selbutton="${car.id}">select</button>   
+        <button  data-removebutton="${car.id}">remove</button>   
       </div>
       <div class="car" style="background-color:${car.color}"></div>
     </li>`).join('');
@@ -43,11 +44,23 @@ export default class GarageView extends View {
       if (id) {
         this.triggerEventSelected(id);
       }
+
+      const idRemove = (e.target as HTMLElement).dataset.removebutton;
+      if (idRemove) {
+        this.triggerEventRemoved(idRemove);
+      }
     });
     return ul;
   }
+  
   private triggerEventSelected(value: string) {
     window.dispatchEvent(new CustomEvent("carselected", {
+      detail: { id: +value }
+    }));
+  }
+
+  private triggerEventRemoved(value: string) {
+    window.dispatchEvent(new CustomEvent("carremoved", {
       detail: { id: +value }
     }));
   }

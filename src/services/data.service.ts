@@ -31,7 +31,23 @@ export class DataService {
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
       },
-      body: JSON.stringify({ name, color})
+      body: JSON.stringify({ name, color })
+    });
+  }
+
+  async deleteCar(id: number) {
+    return Promise.all([this.deleteCarFromGarage(id), this.deleteWinner(id)]);
+  }
+
+  async deleteCarFromGarage(id: number) {
+    return fetch(`${this.url}/garage/${id}`, {
+      method: 'DELETE'
+    });
+  }
+
+  async deleteWinner(id: number) {
+    return fetch(`${this.url}/winners/${id}`, {
+      method: 'DELETE'
     });
   }
 

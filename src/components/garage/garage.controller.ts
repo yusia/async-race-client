@@ -11,6 +11,7 @@ export default class GarageController {
     this.addCreatedListener();
     this.addSelectedListener();
     this.addUpdatedListener();
+    this.addRemovedListener();
   }
 
   private addCreatedListener(){
@@ -38,6 +39,15 @@ export default class GarageController {
       }
     }) as EventListener);
   }
+
+  private addRemovedListener(){
+    window.addEventListener('carremoved', ((e: CustomEvent) => {
+      this.dataService.deleteCar(e.detail.id, ).then(() => {
+        this.renderView();
+      });
+    }) as EventListener);
+  }
+
   async renderView() {
     const cars = await this.dataService.getGarage();
     console.log(cars);
