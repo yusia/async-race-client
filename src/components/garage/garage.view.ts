@@ -15,23 +15,25 @@ export default class GarageView extends View {
     this.appendToBody(garageViewFragment);
   }
 
-  private triggerEventCreate(value: string) {
+  private triggerEventCreate(valueName: string, valueColor: string) {
     window.dispatchEvent(new CustomEvent("carcreated", {
-      detail: { name: value, color: "red" }
+      detail: { name: valueName, color: valueColor }
     }));
   }
 
-  private triggerEventUpdate(value: string) {
+  private triggerEventUpdate(valueName: string, valueColor: string) {
     window.dispatchEvent(new CustomEvent("carupdated", {
-      detail: { name: value, color: "blue" }
+      detail: { name: valueName, color: valueColor }
     }));
   }
 
   buildCarList(carList: Car[]): HTMLElement {
     const inner = carList.map((car) => `
     <li class="row" data-id="${car.id}">
-      <div><span>${car.name}</span> 
-      <button  data-selbutton="${car.id}">select</button>   </div>
+      <div>
+        <span>${car.name}</span> 
+        <button  data-selbutton="${car.id}">select</button>   
+      </div>
       <div class="car" style="background-color:${car.color}"></div>
     </li>`).join('');
     const ul = document.createElement('ul');
@@ -39,7 +41,7 @@ export default class GarageView extends View {
     ul.addEventListener('click', (e) => {
       const id = (e.target as HTMLElement).dataset.selbutton;
       if (id) {
-       this.triggerEventSelected(id);
+        this.triggerEventSelected(id);
       }
     });
     return ul;
