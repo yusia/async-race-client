@@ -1,7 +1,6 @@
 export default class CarBuilder {
 
-  static buildCreateTemplate(btnText: string, listener: (nameValue: string, colorValue: string) => void): HTMLElement {
-
+  static buildCreateTemplate(btnText: string, onClick: (nameValue: string, colorValue: string) => void): HTMLElement {
     const input = document.createElement('input');
     input.type = "text";
     input.id = `${btnText}input`;
@@ -15,16 +14,11 @@ export default class CarBuilder {
     btn.innerText = btnText;
 
     btn.addEventListener('click', () => {
-      const inputElem = document.getElementById(input.id) as HTMLInputElement;
-      const colorElem = document.getElementById(colorPicker.id) as HTMLInputElement;
-      listener(inputElem.value, colorElem.value);
+      onClick(input.value, colorPicker.value);
     });
 
-
     const container = document.createElement("div");
-    container.appendChild(input);
-    container.appendChild(colorPicker);
-    container.appendChild(btn);
+    [input, colorPicker, btn].every((element) => container.appendChild(element));
     return container;
   }
 }
