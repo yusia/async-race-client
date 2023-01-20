@@ -1,15 +1,18 @@
 import { DataService } from "../../services/data.service";
 import WinnersController from '../winners/winners.controller';
 import GarageController from '../garage/garage.controller';
+import CarService from "../../services/car.service";
 
 export default class App {
   private dataService: DataService;
   private garage: GarageController;
   private winners: WinnersController;
+  carService: CarService;
   constructor() {
     const url = 'http://localhost:3000';
     this.dataService = new DataService(url);
-    this.garage = new GarageController(this.dataService);
+    this.carService = new CarService();
+    this.garage = new GarageController(this.dataService, this.carService);
     this.winners = new WinnersController(this.dataService);
   }
 

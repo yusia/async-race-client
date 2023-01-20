@@ -1,4 +1,4 @@
-import { Car, Winner } from '../car.model'
+import { Car, Winner } from '../models/car.model'
 export class DataService {
   constructor(private url: string) {
   }
@@ -23,6 +23,11 @@ export class DataService {
       },
       body: JSON.stringify({ name, color })
     });
+  }
+
+  async createCarsBanch(cars: Car[]) { 
+    const requests=cars.map(car=>this.createCar(car.name,car.color));
+    return Promise.all(requests);
   }
 
   async updateCar(name: string, color: string, id: number) {

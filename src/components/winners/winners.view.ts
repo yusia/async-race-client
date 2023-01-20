@@ -1,5 +1,5 @@
 
-import { Car, Winner } from '../../car.model';
+import { Car, Winner } from '../../models/car.model';
 
 import View from '../../models/view';
 

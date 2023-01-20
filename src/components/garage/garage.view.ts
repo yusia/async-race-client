@@ -1,4 +1,4 @@
-import { Car } from '../../car.model';
+import { Car } from '../../models/car.model';
 import CarBuilder from '../carbuilder/carbuilder.view';
 import View from '../../models/view';
 
@@ -8,12 +8,12 @@ export default class GarageView extends View {
     const garageViewFragment = document.createDocumentFragment();
     const createBtn = CarBuilder.buildCreateTemplate("create", this.triggerEventCreate);
     const updateBtn = CarBuilder.buildCreateTemplate("update", this.triggerEventUpdate);
-    garageViewFragment.appendChild(createBtn);
-    garageViewFragment.appendChild(updateBtn);
     const container = this.buildListContainer(cars.length);
     container.appendChild(this.buildCarList(cars));
 
-    garageViewFragment.appendChild(container);
+    [createBtn, updateBtn, this.buildGenerateBtn(), container].every(
+      (element) => garageViewFragment.appendChild(element));
+
     this.appendToBody(garageViewFragment);
   }
 
@@ -79,5 +79,12 @@ export default class GarageView extends View {
     window.dispatchEvent(new CustomEvent("carremoved", {
       detail: { id: +value }
     }));
+  }
+
+  private buildGenerateBtn(): HTMLElement {
+    const btn = document.createElement('button') as HTMLButtonElement;
+    btn.innerText = 'Generate cars';
+    btn.addEventListener('click', () => window.dispatchEvent(new CustomEvent("generateclicked")));
+    return btn;
   }
 }
