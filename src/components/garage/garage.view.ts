@@ -36,31 +36,51 @@ export default class GarageView extends View {
   }
 
   buildCarList(carList: Car[]): HTMLElement {
-    const inner = carList.map((car) => `
-    <li class="row" data-id="${car.id}">
-      <div>
-        <span>${car.name}</span> 
-        <button  data-selbutton="${car.id}">select</button>   
-        <button  data-removebutton="${car.id}">remove</button>   
-      </div>
-      <div class="car" style="background-color:${car.color}"></div>
-    </li>`).join('');
     const ul = document.createElement('ul');
-    ul.innerHTML = inner;
-    ul.addEventListener('click', (e) => {
-      const id = (e.target as HTMLElement).dataset.selbutton;
-      if (id) {
-        this.triggerEventSelected(id);
-        const car = carList.filter(c => c.id === +id)[0];
-        this.initUpdateComponent(car);
-      }
-
-      const idRemove = (e.target as HTMLElement).dataset.removebutton;
-      if (idRemove) {
-        this.triggerEventRemoved(idRemove);
-      }
-    });
+    ul.innerHTML = carList.map((car) => this.buildCarBlock(car)).join('');;
+    ul.addEventListener('click', (e) => { this.onCarBlockClicked(e, carList); });
     return ul;
+  }
+
+  buildCarBlock(car: Car) {
+    return `
+          <li class="row" data-id="${car.id}">
+            <div>
+              <span>${car.name}</span> 
+              <button  data-sel-button="${car.id}">select</button>   
+              <button  data-remove-button="${car.id}">remove</button> 
+              <button  data-start-btn="${car.id}">start</button>    
+            </div>
+            <div class="car" id="${car.id}-car" style="background-color:${car.color}"></div>
+          </li>`;
+  }
+
+  onCarBlockClicked(e: MouseEvent, carList: Car[]) {
+    const carId = (btnId: string) => (e.target as HTMLElement).dataset[btnId];
+    const isButtonClicked = (btnId: string) => carId(btnId) !== undefined;
+
+    switch (true) {
+      case isButtonClicked("selButton"):
+        this.onSelectClicked(carId("selButton"), carList);
+        break;
+      case isButtonClicked("removeButton"):
+        this.triggerEventRemoved(carId("removeButton"));
+        break;
+      case isButtonClicked("startBtn"):
+        this.onStartClicked(carId("startBtn"));
+        break;
+    }
+  }
+
+  onStartClicked(carId: string = "0") {
+    const car = document.getElementById(`${carId}-car`) as HTMLDivElement;
+    car.style.left = "85vw";
+  }
+
+  onSelectClicked(carId: string = "", carList: Car[]) {
+    this.triggerEventSelected(carId);
+    const car = carList.filter(c => c.id === +carId)[0];
+    this.initUpdateComponent(car);
   }
 
   private triggerEventSelected(value: string) {
@@ -68,6 +88,7 @@ export default class GarageView extends View {
       detail: { id: +value }
     }));
   }
+  
   private initUpdateComponent(car: Car) {
     const inputName = document.getElementById("updateinput") as HTMLInputElement;
     inputName.value = car.name;
@@ -75,7 +96,7 @@ export default class GarageView extends View {
     inputColor.value = car.color;
   }
 
-  private triggerEventRemoved(value: string) {
+  private triggerEventRemoved(value: string = "0") {
     window.dispatchEvent(new CustomEvent("carremoved", {
       detail: { id: +value }
     }));

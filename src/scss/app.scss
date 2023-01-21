@@ -8,4 +8,16 @@
   -webkit-mask-image: url("../assets/images/car1.png");
   mask-image: url("../assets/images/car1.png");
   background-color: blue;
+
+  position: relative;
+  left: 0;
+  transition: left 5s cubic-bezier(0, 0, 1, 1);
 }
+
+li {
+  margin-bottom: 10px;
+  border-bottom: 1px dashed  #d7a708;
+  background-position: end;
+  background-size: 100%;
+}
+

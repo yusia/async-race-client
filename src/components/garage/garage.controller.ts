@@ -60,7 +60,6 @@ export default class GarageController {
 
   async renderView() {
     const cars = await this.dataService.getGarage();
-    console.log(cars);
     this.view.renderGarage(cars);
   }
 }
