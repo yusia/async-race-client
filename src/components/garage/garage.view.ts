@@ -49,7 +49,8 @@ export default class GarageView extends View {
               <span>${car.name}</span> 
               <button  data-sel-button="${car.id}">select</button>   
               <button  data-remove-button="${car.id}">remove</button> 
-              <button  data-start-btn="${car.id}">start</button>    
+              <button  data-start-btn="${car.id}">start</button>  
+              <button  data-stop-btn="${car.id}">stop</button>      
             </div>
             <div class="car" id="${car.id}-car" style="background-color:${car.color}"></div>
           </li>`;
@@ -69,14 +70,23 @@ export default class GarageView extends View {
       case isButtonClicked("startBtn"):
         this.onStartClicked(carId("startBtn"));
         break;
+        case isButtonClicked("stopBtn"):
+          this.onStopClicked(carId("stopBtn"));
+          break;
     }
   }
 
   onStartClicked(carId: string = "0") {
     const car = document.getElementById(`${carId}-car`) as HTMLDivElement;
+    car.style.transition = "left 5s cubic-bezier(0, 0, 1, 1)";
     car.style.left = "85vw";
   }
 
+  onStopClicked(carId: string = "0") {
+    const car = document.getElementById(`${carId}-car`) as HTMLDivElement;
+    car.style.transition = "none";
+    car.style.left = "0";
+  }
   onSelectClicked(carId: string = "", carList: Car[]) {
     this.triggerEventSelected(carId);
     const car = carList.filter(c => c.id === +carId)[0];
