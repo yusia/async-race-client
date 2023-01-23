@@ -1,9 +1,6 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "import",
-    "@typescript-eslint"
-  ],
+  "plugins": ["import", "@typescript-eslint"],
   "extends": [
     "airbnb-base",
     "airbnb-typescript/base",
@@ -12,18 +9,19 @@
     "plugin:@typescript-eslint/recommended"
   ],
   "parserOptions": {
-      "ecmaVersion": 2020,
-      "sourceType": "module"
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "tsconfig.json"
   },
   "env": {
-      "es6": true,
-      "browser": true,
-      "node": true
+    "es6": true,
+    "browser": true,
+    "node": true
   },
   "rules": {
-      "no-debugger": "off",
-      "no-console": 0,
-      "class-methods-use-this": "off",
-      "@typescript-eslint/no-explicit-any": 2
+    "no-debugger": "off",
+    "no-console": 0,
+    "class-methods-use-this": "off",
+    "@typescript-eslint/no-explicit-any": 2
   }
 }

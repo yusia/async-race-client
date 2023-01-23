@@ -1,13 +1,17 @@
-import DataService from "../../services/data.service";
+import DataService from '../../services/data.service';
 import WinnersController from '../winners/winners.controller';
 import GarageController from '../garage/garage.controller';
-import CarService from "../../services/car.service";
+import CarService from '../../services/car.service';
 
 export default class App {
   private dataService: DataService;
+
   private garage: GarageController;
+
   private winners: WinnersController;
+
   carService: CarService;
+
   constructor() {
     this.dataService = new DataService();
     this.carService = new CarService();
@@ -36,16 +40,15 @@ export default class App {
 
   getAppElement(): HTMLElement {
     const markup = `
-    <div class="buttons">
-      <button id="garage">Garage</button>
-      <button id="winners">Winners</button>
+    <div class='buttons'>
+      <button class='btn btn-secondary' id='garage'>Garage</button>
+      <button class='btn btn-secondary' id='winners'>Winners</button>
     </div>
-    <div id="viewContainer"></div>`;
+    <div id='viewContainer'></div>`;
 
     const views = document.createElement('div');
-    views.classList.add("container");
+    views.classList.add('container');
     views.innerHTML = markup;
     return views;
   }
-
 }
