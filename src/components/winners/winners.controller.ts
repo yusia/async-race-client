@@ -1,4 +1,4 @@
-import { DataService } from "../../services/data.service";
+import DataService  from "../../services/data.service";
 import WinnersView from "./winners.view";
 
 export default class WinnersController {

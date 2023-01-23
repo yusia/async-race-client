@@ -1,5 +1,5 @@
 import { Car } from "../../models/car.model";
-import { DataService } from "../../services/data.service";
+import  DataService  from "../../services/data.service";
 import CarService from "../../services/car.service";
 import GarageView from "./garage.view";
 
