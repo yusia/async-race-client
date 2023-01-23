@@ -1,11 +1,12 @@
-import { Car } from "../../models/car.model";
-import  DataService  from "../../services/data.service";
-import CarService from "../../services/car.service";
-import GarageView from "./garage.view";
+import DataService from '../../services/data.service';
+import CarService from '../../services/car.service';
+import GarageView from './garage.view';
 
 export default class GarageController {
   view: GarageView;
+
   selectCar: number | undefined;
+
   constructor(private dataService: DataService, private carService: CarService) {
     this.view = new GarageView();
     this.selectCar = 2;
@@ -17,13 +18,14 @@ export default class GarageController {
   }
 
   private addGenerateListener() {
-    window.addEventListener('generateclicked', ((e: CustomEvent) => {
-      const randomCars=this.carService.generateRandomCars();
+    window.addEventListener('generateclicked', (() => {
+      const randomCars = this.carService.generateRandomCars();
       this.dataService.createCarsBanch(randomCars).then(() => {
         this.renderView();
       });
     }) as EventListener);
   }
+
   private addCreatedListener() {
     window.addEventListener('carcreated', ((e: CustomEvent) => {
       this.dataService.createCar(e.detail.name, e.detail.color).then(() => {
@@ -45,14 +47,13 @@ export default class GarageController {
           this.selectCar = undefined;
           this.renderView();
         });
-
       }
     }) as EventListener);
   }
 
   private addRemovedListener() {
     window.addEventListener('carremoved', ((e: CustomEvent) => {
-      this.dataService.deleteCar(e.detail.id,).then(() => {
+      this.dataService.deleteCar(e.detail.id).then(() => {
         this.renderView();
       });
     }) as EventListener);

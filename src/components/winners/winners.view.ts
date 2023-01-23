@@ -1,10 +1,8 @@
-
-import { Car, Winner } from '../../models/car.model';
+import Winner from '../../models/car.model';
 
 import View from '../../models/view';
 
 export default class WinnersView extends View {
-
   renderWinners(winners: Winner[]): void {
     const fragment = document.createDocumentFragment();
     fragment.appendChild(this.buildPage(winners));
@@ -20,12 +18,9 @@ export default class WinnersView extends View {
   }
 
   buildCarList(carList: Winner[]): HTMLElement {
-
-    const inner = carList.map((car) => `
+    const inner = carList.map((winner: Winner) => `
     <li class="row">
-      <span class="col">${car.name}</span>
-      <span class="col">${car.wins}</span>
-      <span class="col">${car.time}</span>
+      <span class="col">${winner.name}</span>
     </li>`).join('');
     const ul = document.createElement('ul');
     ul.innerHTML = inner;

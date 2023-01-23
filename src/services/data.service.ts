@@ -1,39 +1,36 @@
-import { Car, CarModel, Winner } from '../models/car.model';
-import { EngineStatus } from '../enums/engineStatus.enum';
+import Car from '../models/car.model';
+import Winner from '../models/winner.model';
+import EngineStatus from '../enums/engineStatus.enum';
 
 export const url = 'http://localhost:3000';
 
 export default class DataService {
   private url = url;
-  constructor() {
-  }
 
   async getGarage() {
     return fetch(`${this.url}/garage`)
-      .then((value) => value.json())
-      .then((data: CarModel[]) => this.mapToCarModel(data));
+      .then((value) => value.json());
   }
 
-  async getWinners() {
+  async getWinners(): Promise<Winner[]> {
     const cars: Car[] = await this.getGarage();
     return fetch(`${this.url}/winners`)
       .then((value) => value.json())
       .then((data: Winner[]) => this.mapToWinnersModel(data, cars));
-
   }
 
   async createCar(name: string, color: string) {
     return fetch(`${this.url}/garage`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
       },
-      body: JSON.stringify({ name, color })
+      body: JSON.stringify({ name, color }),
     });
   }
 
   async createCarsBanch(cars: Car[]) {
-    const requests = cars.map(car => this.createCar(car.name, car.color));
+    const requests = cars.map((car) => this.createCar(car.name, car.color));
     return Promise.all(requests);
   }
 
@@ -41,9 +38,9 @@ export default class DataService {
     return fetch(`${this.url}/garage/${id}`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
       },
-      body: JSON.stringify({ name, color })
+      body: JSON.stringify({ name, color }),
     });
   }
 
@@ -53,34 +50,27 @@ export default class DataService {
 
   async deleteCarFromGarage(id: number) {
     return fetch(`${this.url}/garage/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
     });
   }
 
   async deleteWinner(id: number) {
     return fetch(`${this.url}/winners/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
     });
   }
 
   async startStopEngine(id: number, status: EngineStatus) {
     return fetch(`${this.url}/engine?id=${id}&status=${status}`, {
-      method: 'PATCH'
+      method: 'PATCH',
     });
   }
 
   mapToWinnersModel(data: Winner[], cars: Car[]): Winner[] {
-    data.map((winner) => {
-      const carName = cars.filter(c => c.id === winner.id)[0].name;
-      return winner.name = carName;
-    })
-    return data;
-  }
-
-  mapToCarModel(data: CarModel[]): CarModel[] {
-    return data.map((c) => {
-      c.start = async () => this.startStopEngine(c.id!, EngineStatus.Started);
-      return c;
+    data.map((winner: Winner) => {
+      const car = cars.filter((c) => c.id === winner.id)[0];
+      return new Winner(car.name, winner.id, car.color, winner.time, winner.wins);
     });
+    return data;
   }
 }
