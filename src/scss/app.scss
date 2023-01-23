@@ -14,10 +14,22 @@
   transition: left 5s cubic-bezier(0, 0, 1, 1);
 }
 
-li {
+.car-container {
   margin-bottom: 10px;
   border-bottom: 1px dashed  #d7a708;
   background-position: end;
   background-size: 100%;
 }
 
+.start-icon{
+  background: url("../assets/images/start.svg") no-repeat;
+}
+.restart-icon{
+  background: url("../assets/images/reset.svg") no-repeat;
+}
+.remove-icon{
+  background: url("../assets/images/trash-outline.svg") no-repeat;
+}
+.edit-icon{
+  background: url("../assets/images/pencil-outline.svg") no-repeat;
+}
