@@ -1,25 +1,35 @@
 import Car from '../../models/car.model';
 import CarBuilder from '../carbuilder/carbuilder';
 import View from '../../models/view';
+import Paginator from '../paginator/paginator';
 
 export default class GarageView extends View {
+  paginator: Paginator;
+
+  constructor() {
+    super();
+    this.paginator = new Paginator([]);
+  }
+
   renderGarage(cars: Car[]): void {
+    this.paginator = new Paginator(cars);
     const garageViewFragment = document.createDocumentFragment();
     const createBtn = CarBuilder.buildCreateTemplate('create', this.triggerEventCreate);
     const updateBtn = CarBuilder.buildCreateTemplate('update', this.triggerEventUpdate);
     const container = this.buildListContainer(cars.length);
-    container.appendChild(this.buildCarList(cars));
+    container.appendChild(this.buildCarList(this.paginator.loadPageElements() as Car[]));
 
     [createBtn, updateBtn, this.buildGenerateBtn(), container].every(
       (element) => garageViewFragment.appendChild(element),
     );
 
     this.appendToBody(garageViewFragment);
+    this.listenPageChanged();
   }
 
   buildListContainer(count: number): HTMLElement {
     const container = document.createElement('div');
-    container.innerHTML = `<h1>Garage (${count})</h1>`;
+    container.innerHTML = `<h1>Garage (${count})</h1>${this.paginator.renderPageBar()}`;
     return container;
   }
 
@@ -27,6 +37,17 @@ export default class GarageView extends View {
     window.dispatchEvent(new CustomEvent('carcreated', {
       detail: { name: valueName, color: valueColor },
     }));
+  }
+
+  private listenPageChanged() {
+    const container = document.getElementById('page-links') as HTMLElement;
+    container.addEventListener('click', (e) => {
+      const pageId = (e.target as HTMLElement).dataset.id || -1;
+      if (+pageId > 0) {
+        this.paginator.currentPage = +pageId;
+        this.loadPage(this.paginator.loadPageElements() as Car[]);
+      }
+    });
   }
 
   private triggerEventUpdate(valueName: string, valueColor: string) {
@@ -37,10 +58,19 @@ export default class GarageView extends View {
 
   buildCarList(carList: Car[]): HTMLElement {
     const div = document.createElement('div');
+    div.id = 'car-container';
     div.ariaLive = 'polite';
-    div.innerHTML = carList.map((car) => this.buildCarBlock(car)).join('');
+    div.innerHTML = `<h2>Page ${this.paginator.currentPage}</h2>`;
+    div.innerHTML += carList.map((car) => this.buildCarBlock(car)).join('');
     div.addEventListener('click', (e) => { this.onCarBlockClicked(e, carList); });
     return div;
+  }
+
+  loadPage(carList: Car[]) {
+    const container = document.getElementById('car-container') as HTMLElement;
+    container.innerHTML = '';
+    container.innerHTML = `<h2>Page ${this.paginator.currentPage}</h2>`;
+    container.innerHTML += carList.map((car) => this.buildCarBlock(car)).join('');
   }
 
   buildCarBlock(car: Car) {
