@@ -8,11 +8,11 @@ export default class GarageView extends Component {
 
   constructor() {
     super();
-    this.paginator = new Paginator([]);
+    this.paginator = new Paginator([], this.onPageChanged.bind(this));
   }
 
   renderGarage(cars: Car[]): void {
-    this.paginator = new Paginator(cars);
+    this.paginator.init(cars);
     const garageViewFragment = document.createDocumentFragment();
     const createBtn = CarBuilder.buildCreateTemplate('create', this.triggerEventCreate);
     const updateBtn = CarBuilder.buildCreateTemplate('update', this.triggerEventUpdate);
@@ -24,12 +24,12 @@ export default class GarageView extends Component {
     );
 
     this.appendToBody(garageViewFragment);
-    this.listenPageChanged();
   }
 
   buildListContainer(count: number): HTMLElement {
     const container = document.createElement('div');
-    container.innerHTML = `<h1>Garage (${count})</h1>${this.paginator.renderPageBar()}`;
+    container.innerHTML = `<h1>Garage (${count})</h1>`;
+    container.appendChild(this.paginator.renderPageBar());
     return container;
   }
 
@@ -39,15 +39,8 @@ export default class GarageView extends Component {
     }));
   }
 
-  private listenPageChanged() {
-    const container = document.getElementById('page-links') as HTMLElement;
-    container.addEventListener('click', (e) => {
-      const pageId = (e.target as HTMLElement).dataset.id || -1;
-      if (+pageId > 0) {
-        this.paginator.currentPage = +pageId;
-        this.loadPage(this.paginator.loadPageElements() as Car[]);
-      }
-    });
+  private onPageChanged() {
+    this.loadPage(this.paginator.loadPageElements() as Car[]);
   }
 
   private triggerEventUpdate(valueName: string, valueColor: string) {
