@@ -1,9 +1,9 @@
 import Car from '../../models/car.model';
 import CarBuilder from '../carbuilder/carbuilder';
-import View from '../../models/view';
+import Component from '../../models/component';
 import Paginator from '../paginator/paginator';
 
-export default class GarageView extends View {
+export default class GarageView extends Component {
   paginator: Paginator;
 
   constructor() {
