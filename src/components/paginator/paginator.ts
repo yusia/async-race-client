@@ -1,9 +1,11 @@
+import Component from '../../models/component';
 import content from './paginator.html';
 
-export default class Paginator {
+export default class Paginator extends Component {
   currentPage = 1;
 
   constructor(private collection: object[], private itemsPerPage = 7) {
+    super();
   }
 
   renderPageBar(): string {
@@ -32,17 +34,6 @@ export default class Paginator {
   }
 
   linkMarkup = (i: number) => `<li class="page-item"><a class="page-link" href="#" data-id="${i}">${i}</a></li>`;
-
-  fillTemplate(template: string, item: object): string {
-    const entries = Object.entries(item);
-    let filled = template;
-    // eslint-disable-next-line no-restricted-syntax
-    for (const [key, value] of entries) {
-      const searchKey = new RegExp(`{{${key}}}`, 'g');
-      filled = filled.replace(searchKey, value.toString());
-    }
-    return filled;
-  }
 
   itemCount() {
     return this.collection.length;
