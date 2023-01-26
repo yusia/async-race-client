@@ -10,7 +10,6 @@ export default class WinnersController {
 
   async renderView() {
     const cars = await this.dataService.getWinners();
-    console.log(cars);
     this.view.renderWinners(cars);
   }
 }

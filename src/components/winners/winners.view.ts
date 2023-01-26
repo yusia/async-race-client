@@ -51,7 +51,6 @@ export default class WinnersView extends View {
       <td>${winner.wins}</td>
       <td>${winner.time}</td>
     </tr>`).join('');
-    console.log(inner);
     return this.fillTemplate(content, { lines: inner });
   }
 }
