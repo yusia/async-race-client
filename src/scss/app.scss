@@ -1,0 +1,39 @@
+.car {
+  width: 70px;
+  height: 50px;
+  background-size: contain;
+  padding: 9px;
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-image: url("../assets/images/car1.png");
+  mask-image: url("../assets/images/car1.png");
+  background-color: blue;
+
+  position: relative;
+  left: 0;
+  transition: left 5s cubic-bezier(0, 0, 1, 1);
+}
+
+.car-container {
+  margin-bottom: 10px;
+  border-bottom: 1px dashed  #d7a708;
+  background-position: end;
+  background-size: 100%;
+}
+
+.start-icon{
+  background: url("../assets/images/start.svg") no-repeat;
+  cursor: pointer;
+}
+.restart-icon{
+  background: url("../assets/images/reset.svg") no-repeat;
+  cursor: pointer;
+}
+.remove-icon{
+  background: url("../assets/images/trash-outline.svg") no-repeat;
+  cursor: pointer;
+}
+.edit-icon{
+  background: url("../assets/images/pencil-outline.svg") no-repeat;
+  cursor: pointer;
+}
